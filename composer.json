@@ -1,0 +1,51 @@
+{
+  "name": "ipiner/modules-log",
+  "description": "Pin 日志模块",
+  "keywords": [
+    "laravel",
+    "pin",
+    "log",
+    "activity",
+    "operation-log",
+    "login-log",
+    "audit"
+  ],
+  "license": "MIT",
+  "require": {
+    "ipiner/pin": "^1.0"
+  },
+  "require-dev": {
+    "dedoc/scramble": "^0.13.22",
+    "laravel/pint": "^1.15",
+    "orchestra/testbench": "^11.1",
+    "pestphp/pest": "^4.7",
+    "phpstan/phpstan": "^2.2",
+    "phpunit/phpunit": "^12"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pin\\Modules\\Log\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pin\\Tests\\": "tests"
+    }
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Pin\\Modules\\Log\\LogServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
