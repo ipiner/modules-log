@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Facade;
 use Pin\Modules\Log\Models\ActivityLog;
 use Pin\Modules\Log\Models\LoginLog;
 use Pin\Modules\Log\Models\OperationLog;
+use Pin\Modules\Log\Payloads\Payload;
 
 /**
- * @method static ActivityLog|LoginLog|OperationLog create()
+ * @method static ActivityLog|LoginLog|OperationLog create(Payload $payload)
  *
  * @see \Pin\Modules\Log\Log
  */
