@@ -25,7 +25,7 @@ class LoginLogController extends Controller
     /**
      * 登录日志
      *
-     * @return ApiResponse<Pagination<LoginLog[]>>
+     * @return ApiResponse<Pagination<LoginLog>>
      */
     public function index(Request $request): ApiResponse
     {
@@ -45,7 +45,7 @@ class LoginLogController extends Controller
     /**
      * 登录日志返回码筛选项
      *
-     * @return ApiResponse<SelectOption>
+     * @return ApiResponse<SelectOption[]>
      */
     public function options(): ApiResponse
     {

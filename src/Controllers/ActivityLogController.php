@@ -23,7 +23,7 @@ class ActivityLogController extends Controller
     /**
      * 行为日志
      *
-     * @return ApiResponse<Pagination<ActivityLog[]>>
+     * @return ApiResponse<Pagination<ActivityLog>>
      */
     public function index(Request $request): ApiResponse
     {

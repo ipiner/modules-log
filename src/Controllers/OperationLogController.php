@@ -24,7 +24,7 @@ class OperationLogController extends Controller
     /**
      * 操作日志
      *
-     * @return ApiResponse<Pagination<OperationLog[]>>
+     * @return ApiResponse<Pagination<OperationLog>>
      */
     public function index(Request $request): ApiResponse
     {
