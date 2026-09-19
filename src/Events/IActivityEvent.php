@@ -16,6 +16,8 @@ interface IActivityEvent
 
     /**
      * 操作对象类型
+     *
+     * @return string
      */
     public function subjectType();
 

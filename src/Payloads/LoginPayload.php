@@ -20,14 +20,11 @@ class LoginPayload extends Payload
     public function __construct(?Model $user, int $code = 0, string $message = '登录成功')
     {
         parent::__construct([
+            'uid' => $user?->id ?? 0,
+            'username' => $user?->username ?? '',
             'code' => $code,
             'message' => $message,
         ]);
-
-        if ($user) {
-            $this->uid = $user->id;
-            $this->username = $user->username;
-        }
     }
 
     /**
@@ -35,6 +32,6 @@ class LoginPayload extends Payload
      */
     public function toArray(): array
     {
-        return $this->only(['uid', 'username', 'user_type', 'request_id', 'ip', 'code', 'message', 'context']);
+        return $this->only(['uid', 'username', 'user_type', 'request_id', 'ip', 'code', 'message', 'context', 'created_at']);
     }
 }

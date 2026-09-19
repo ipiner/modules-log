@@ -2,21 +2,12 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Cache;
 use Pin\Modules\Log\Events\OperationEvent;
 use Pin\Modules\Log\Facades\Log;
 use Pin\Modules\Log\LogRoute;
-use Pin\Modules\Log\LogServiceProvider;
-use Pin\Modules\Log\Models\ActivityLog;
-use Pin\Modules\Log\Models\LoginLog;
-use Pin\Modules\Log\Models\OperationLog;
 use Pin\Modules\Log\Payloads\ActivityPayload;
 use Pin\Modules\Log\Payloads\LoginPayload;
 use Pin\Tests\UserFactory;
-
-beforeEach(function () {
-    new LogServiceProvider($this->app)->boot();
-});
 
 describe('login logs', function () {
     it('requires authentication', function () {
@@ -36,13 +27,23 @@ describe('login logs', function () {
         $user = UserFactory::new()->create();
         Log::create(new LoginPayload($user));
         Log::create(new LoginPayload($user, 10010));
-        Cache::forget(new LoginLog()->getTable().'.options');
 
         LogRoute::LoginLogOption->testJson($this->actingAs($user))
             ->assertJsonFragment(['value' => 0])
             ->assertJsonFragment(['label' => '0/登录成功'])
             ->assertJsonFragment(['value' => 10010])
             ->assertJsonFragment(['label' => '10010/Unknown error']);
+    });
+
+    it('sorts login codes numerically', function () {
+        $user = UserFactory::new()->create();
+        foreach ([10010, 2, 100, 0] as $code) {
+            Log::create(new LoginPayload($user, $code));
+        }
+
+        $options = LogRoute::LoginLogOption->testJson($this->actingAs($user))->assertOk()->json('data');
+
+        expect(array_column($options, 'value'))->toBe([0, 2, 100, 10010]);
     });
 });
 
@@ -56,7 +57,6 @@ describe('operation logs', function () {
     });
     it('returns operation log options', function () {
         $user = UserFactory::new()->create();
-        Cache::forget(new OperationLog()->getTable().'.options');
 
         LogRoute::OperationLogOption->testJson($this->actingAs($user))
             ->assertJsonFragment(['value' => OperationEvent::Created])
@@ -88,7 +88,6 @@ describe('activity logs', function () {
             'user'
         );
         Log::create($payload);
-        Cache::forget(new ActivityLog()->getTable().'.options');
 
         LogRoute::ActivityLogOption->testJson($this->actingAs($user))
             ->assertJsonFragment(['value' => 'create'])

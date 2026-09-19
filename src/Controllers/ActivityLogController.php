@@ -6,7 +6,6 @@ namespace Pin\Modules\Log\Controllers;
 
 use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Override;
 use Pin\Http\ApiResponse;
 use Pin\Modules\Log\Events\LogEvent;
@@ -43,30 +42,7 @@ class ActivityLogController extends Controller
      */
     public function options(): ApiResponse
     {
-        $data = $this->service->options(
-            ['event', 'subject_type'],
-            function (Collection $data) {
-
-                return [
-                    'events' => $data->keyBy('event')
-                        ->keys()
-                        ->sort()
-                        ->values()
-                        ->map(fn ($item) => [
-                            'label' => $item,
-                            'value' => $item,
-                        ])
-                        ->toArray(),
-                    'subject_types' => $data->keyBy('subject_type')
-                        ->keys()
-                        ->sort()
-                        ->values()
-                        ->map(fn ($item) => ['label' => $item, 'value' => $item])
-                        ->toArray(),
-                ];
-            });
-
-        return $this->success($data);
+        return $this->success($this->service->activityOptions());
     }
 
     #[Override]

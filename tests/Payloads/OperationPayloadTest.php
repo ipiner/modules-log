@@ -23,3 +23,10 @@ it('handles operation changes', function () {
     $payload->changes(null, ['a' => 'a'], ['a']);
     expect($payload->changes)->toBeNull();
 });
+
+it('only records changed values and preserves type changes', function () {
+    $payload = new OperationPayload(OperationEvent::Updated);
+    $payload->changes(['same' => 'a', 'enabled' => 0], ['same' => 'a', 'enabled' => null]);
+
+    expect($payload->changes)->toBe(['old' => ['enabled' => 0], 'new' => ['enabled' => null]]);
+});

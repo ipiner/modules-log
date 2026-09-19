@@ -18,9 +18,9 @@ use Pin\Modules\Log\Payloads\Payload;
 class Log extends Facade
 {
     /**
-     * Get the registered name of the component.
+     * 日志服务的容器绑定名称。
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'pin.modules.log';
     }

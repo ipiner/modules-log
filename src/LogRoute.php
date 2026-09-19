@@ -12,7 +12,7 @@ use Pin\Route\InteractsWithRoute;
 use Pin\Route\Routable;
 
 /**
- * 操作日志路由枚举
+ * 登录、操作与行为日志路由。
  */
 #[Prefix('$config.pin.modules.log.routes.prefix')]
 enum LogRoute: string implements Routable

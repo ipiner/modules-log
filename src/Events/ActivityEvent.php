@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pin\Modules\Log\Events;
 
+use InvalidArgumentException;
 use Pin\Support\Str;
 
 /**
@@ -35,14 +36,21 @@ trait ActivityEvent
         $parts = $this->parts();
         $event = $parts[0];
 
-        return $parts[2] ?? explode('.', $event)[0];
+        return $parts[2] ?? explode('.', $event, 2)[0];
     }
 
     /**
-     * 分割值
+     * 解析 event|title 或 event|title|subject_type。
+     *
+     * @return array{string, string, string|null}
      */
     protected function parts(): array
     {
-        return explode('|', $this->value);
+        $parts = explode('|', $this->value, 4);
+        if (count($parts) < 2 || count($parts) > 3 || $parts[0] === '') {
+            throw new InvalidArgumentException('行为事件格式必须为 event|title 或 event|title|subject_type');
+        }
+
+        return [$parts[0], $parts[1], $parts[2] ?? null];
     }
 }

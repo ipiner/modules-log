@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Pin\Modules\Log\Models;
 
-use Override;
 use Pin\Modules\Log\Payloads\LoginPayload;
 
 /**
@@ -12,12 +11,8 @@ use Pin\Modules\Log\Payloads\LoginPayload;
  */
 class LoginLog extends Model
 {
-    #[Override]
-    protected function onCreating()
-    {
-        if ($this->context === []) {
-            $this->context = null;
-        }
-        parent::onCreating();
-    }
+    protected $casts = [
+        'context' => 'array',
+        'code' => 'integer',
+    ];
 }

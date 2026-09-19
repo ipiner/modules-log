@@ -12,13 +12,17 @@ use Pin\Support\ServiceProvider;
 class LogServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
+     * 注册配置与服务，供其他服务提供者在启动时使用。
      */
+    public function register(): void
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/log.php', 'pin.modules.log');
+        $this->app->singleton(Log::class);
+        $this->app->alias(Log::class, 'pin.modules.log');
+    }
+
     public function boot(): void
     {
-        $this->app->singleton('pin.modules.log', Log::class);
-
-        $this->mergeConfigFrom(__DIR__.'/../config/log.php', 'pin.modules.log');
         $this->publishes(
             [__DIR__.'/../config/log.php' => config_path('pin/modules/log.php')],
             'pin-modules-log-config'
@@ -29,6 +33,8 @@ class LogServiceProvider extends ServiceProvider
         );
 
         // 自动注册日志路由
-        LogRoute::registerRoutes();
+        if (! $this->app->routesAreCached()) {
+            LogRoute::registerRoutes();
+        }
     }
 }

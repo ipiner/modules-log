@@ -14,7 +14,7 @@ use Pin\Modules\Log\Events\LogEvent;
 use Pin\Modules\Log\Models\LoginLog;
 use Pin\Pagination\Pagination;
 use Pin\Scramble\SelectOption;
-use Pin\Validation\QueryableRules as Queryable;
+use Pin\Validation\QueryableRules;
 
 /**
  * 查询登录日志和登录结果筛选项。
@@ -32,10 +32,10 @@ class LoginLogController extends Controller
         $rules = [
             ...$this->service->baseRules(),
             // 登录返回信息
-            'message' => Queryable::like(),
+            'message' => QueryableRules::like(),
 
             // 登录返回码
-            'code' => Queryable::inNumeric(),
+            'code' => QueryableRules::inNumeric(),
         ];
         $request->validate($rules);
 
@@ -49,10 +49,10 @@ class LoginLogController extends Controller
      */
     public function options(): ApiResponse
     {
-        $data = $this->service->options('code', function (Collection $data) {
-            return $data->sort()
+        $data = $this->service->options('code', static function (Collection $data): array {
+            return $data->sortBy('code', SORT_NUMERIC)
                 ->values()
-                ->map(fn ($item) => [
+                ->map(static fn ($item): array => [
                     'label' => $item->code.'/'.($item->code === 0 ? '登录成功' : Errors::get($item->code)->message()),
                     'value' => $item->code,
                 ])

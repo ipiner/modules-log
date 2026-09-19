@@ -17,24 +17,23 @@ use Pin\Support\Str;
  * @property string $subject_type 操作对象类型
  * @property string $title 事件标题
  *
- * @method static title(string $title)
+ * @method $this title(string $title)
  */
 class ActivityPayload extends Payload
 {
     public function __construct(string|BackedEnum|IActivityEvent $event, array $attributes = [])
     {
-        parent::__construct($attributes);
-
-        // 初始化 subject，保证结构完整（即使为空）
-        $this->subject(null, '', '');
-
+        $defaults = ['subject_id' => 0, 'subject_name' => '', 'subject_type' => ''];
         if ($event instanceof IActivityEvent) {
-            $this->event = $event->event();
-            $this->title = $event->title();
-            $this->subject_type = $event->subjectType();
+            $eventName = $event->event();
+            $defaults['title'] = $event->title();
+            $defaults['subject_type'] = $event->subjectType();
         } else {
-            $this->event = Str::string($event);
+            $eventName = Str::string($event);
         }
+
+        // 调用方提供的对象和标题覆盖默认值，事件标识始终由 $event 决定。
+        parent::__construct(array_replace($defaults, $attributes, ['event' => $eventName]));
     }
 
     /**

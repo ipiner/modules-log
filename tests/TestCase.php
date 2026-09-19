@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Pin\Tests;
 
 use Pin\Modules\Log\LogServiceProvider;
-use Pin\Testing\Pest;
-
-Pest::boot();
 
 class TestCase extends \Pin\Testing\TestCase
 {
+    protected function defineEnvironment($app): void
+    {
+        $app['config']->set('cache.default', 'array');
+    }
+
     protected function defineDatabaseMigrations()
     {
         $this->loadMigrationsFrom([

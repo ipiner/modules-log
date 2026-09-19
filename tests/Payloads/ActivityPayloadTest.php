@@ -23,3 +23,19 @@ it('has empty subject by default and can set subject values', function () {
         ->and($payload->subject_type)->toBe('order')
         ->and($payload->title)->toBe('创建订单');
 });
+
+it('preserves explicitly supplied subject and title attributes', function () {
+    $payload = new ActivityPayload(Events::OrderCreated, [
+        'subject_id' => 123,
+        'subject_name' => 'order 123',
+        'subject_type' => 'custom order',
+        'title' => 'custom title',
+        'event' => 'ignored',
+    ]);
+
+    expect($payload)->subject_id->toBe(123)
+        ->subject_name->toBe('order 123')
+        ->subject_type->toBe('custom order')
+        ->title->toBe('custom title')
+        ->event->toBe('order.created');
+});

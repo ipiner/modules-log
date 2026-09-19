@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Pin\Modules\Log\Controllers\ActivityLogController;
 use Pin\Modules\Log\Controllers\LoginLogController;
 use Pin\Modules\Log\Controllers\OperationLogController;

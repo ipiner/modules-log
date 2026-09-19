@@ -98,11 +98,36 @@ class LogService extends ModelService
     {
         $key = $this->model()->getTable().'.options';
 
-        return Cache::get($key, function () use ($key, $columns, $map) {
-            $data = $map($this->modelClass::select((array) $columns)->distinct()->get());
-            Cache::set($key, $data, $this->optionsTTL);
+        return Cache::remember($key, $this->optionsTTL, fn (): array => $map(
+            $this->modelClass::select((array) $columns)->distinct()->get()
+        ));
+    }
 
-            return $data;
-        });
+    /**
+     * 行为和操作日志共用的事件、对象类型筛选项。
+     *
+     * @param  array<string, string>  $eventLabels
+     * @return array{events: list<array{label: mixed, value: mixed}>, subject_types: list<array{label: mixed, value: mixed}>}
+     */
+    public function activityOptions(array $eventLabels = []): array
+    {
+        return $this->options(['event', 'subject_type'], fn (Collection $rows): array => [
+            'events' => $this->selectOptions($rows, 'event', $eventLabels),
+            'subject_types' => $this->selectOptions($rows, 'subject_type'),
+        ]);
+    }
+
+    /**
+     * @param  array<string, string>  $labels
+     * @return list<array{label: mixed, value: mixed}>
+     */
+    protected function selectOptions(Collection $rows, string $column, array $labels = []): array
+    {
+        return $rows->pluck($column)
+            ->uniqueStrict()
+            ->sort()
+            ->values()
+            ->map(static fn ($value): array => ['label' => $labels[$value] ?? $value, 'value' => $value])
+            ->all();
     }
 }

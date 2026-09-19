@@ -10,6 +10,9 @@ use Pin\Modules\Log\Models\LoginLog;
 use Pin\Modules\Log\Models\OperationLog;
 use Pin\Modules\Log\Payloads\Payload;
 
+/**
+ * 日志类型及其模型、路由配置。
+ */
 enum LogEvent: string
 {
     case Login = 'login';
@@ -20,9 +23,11 @@ enum LogEvent: string
      * 获取日志配置
      *
      * @return array{
-     *   model: class-string<Model> ,
-     *   controller: string,
-     *   name: string
+     *   model: class-string<Model>,
+     *   controller: class-string,
+     *   route_enabled: bool,
+     *   route_name: string,
+     *   subject_name_columns?: array<string, string|list<string>>
      * }
      */
     public function config(): array
@@ -35,7 +40,7 @@ enum LogEvent: string
      *
      * @return ActivityLog|LoginLog|OperationLog
      */
-    public function create(array|Payload $data)
+    public function create(array|Payload $data): Model
     {
         $data = is_array($data) ? $data : $data->toArray();
         $model = $this->config()['model'];
