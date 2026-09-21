@@ -17,7 +17,7 @@ use Pin\Scramble\SelectOption;
 use Pin\Validation\QueryableRules;
 
 /**
- * 查询登录日志和登录结果筛选项。
+ * 查询登录日志和登录结果筛选项
  */
 #[Group('系统 / 日志')]
 class LoginLogController extends Controller

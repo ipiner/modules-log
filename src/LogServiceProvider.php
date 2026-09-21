@@ -12,7 +12,7 @@ use Pin\Support\ServiceProvider;
 class LogServiceProvider extends ServiceProvider
 {
     /**
-     * 注册配置与服务，供其他服务提供者在启动时使用。
+     * 注册配置与服务，供其他服务提供者在启动时使用
      */
     public function register(): void
     {

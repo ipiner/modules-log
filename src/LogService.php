@@ -104,7 +104,7 @@ class LogService extends ModelService
     }
 
     /**
-     * 行为和操作日志共用的事件、对象类型筛选项。
+     * 行为和操作日志共用的事件、对象类型筛选项
      *
      * @param  array<string, string>  $eventLabels
      * @return array{events: list<array{label: mixed, value: mixed}>, subject_types: list<array{label: mixed, value: mixed}>}

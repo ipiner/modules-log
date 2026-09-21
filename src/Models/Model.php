@@ -7,7 +7,7 @@ namespace Pin\Modules\Log\Models;
 use Override;
 
 /**
- * 日志模型基类，统一上下文字段的存储方式。
+ * 日志模型基类，统一上下文字段的存储方式
  */
 class Model extends \Pin\Models\Model
 {

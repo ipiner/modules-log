@@ -32,7 +32,7 @@ class ActivityPayload extends Payload
             $eventName = Str::string($event);
         }
 
-        // 调用方提供的对象和标题覆盖默认值，事件标识始终由 $event 决定。
+        // 调用方提供的对象和标题覆盖默认值，事件标识始终由 $event 决定
         parent::__construct(array_replace($defaults, $attributes, ['event' => $eventName]));
     }
 

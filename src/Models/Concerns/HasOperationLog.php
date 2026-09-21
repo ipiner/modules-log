@@ -34,7 +34,7 @@ trait HasOperationLog
         static::created(static fn (self $model) => $model->recordOperationLog(OperationEvent::Created));
         static::updated(static fn (self $model) => $model->recordOperationLog(OperationEvent::Updated));
         static::deleted(static function (self $model): void {
-            // 软删除模型的强制删除还会触发 forceDeleted，由该事件单独记录。
+            // 软删除模型的强制删除还会触发 forceDeleted，由该事件单独记录
             if (! method_exists($model, 'isForceDeleting') || ! $model->isForceDeleting()) {
                 $model->recordOperationLog(OperationEvent::Deleted);
             }
@@ -52,7 +52,7 @@ trait HasOperationLog
     }
 
     /**
-     * 临时禁用当前模型类的日志，嵌套调用和异常退出时恢复进入前的状态。
+     * 临时禁用当前模型类的日志，嵌套调用和异常退出时恢复进入前的状态
      */
     public static function withoutOperationLogging(callable $callback): mixed
     {
@@ -102,10 +102,10 @@ trait HasOperationLog
             return;
         }
 
-        // 显式读取模型字段，避免访问到 Eloquent 同名的 protected $changes 属性。
+        // 显式读取模型字段，避免访问到 Eloquent 同名的 protected $changes 属性
         $changes = $this->operationLog->getAttribute('changes') ?? [];
         foreach ($new as $key => $value) {
-            // 已记录字段保留最初的旧值；数组字段整体替换，避免递归合并污染快照。
+            // 已记录字段保留最初的旧值；数组字段整体替换，避免递归合并污染快照
             if (! array_key_exists($key, $changes['new'] ?? []) && array_key_exists($key, $old)) {
                 $changes['old'][$key] = $old[$key];
             }
@@ -221,7 +221,7 @@ trait HasOperationLog
         };
         $newValues = match ($event) {
             OperationEvent::Created => $this->getAttributes(),
-            // updated/restored 读取实际保存的字段，避免记录事件回调中尚未保存的数据。
+            // updated/restored 读取实际保存的字段，避免记录事件回调中尚未保存的数据
             OperationEvent::Updated, OperationEvent::Restored => $this->getChanges(),
             default => $this->getDirty(),
         };
@@ -258,9 +258,9 @@ trait HasOperationLog
     /**
      * 获取操作对象名称的字段
      *
-     * 默认从 `pin.modules.log.operation.subject_name_columns.{table}` 读取配置。
+     * 默认从 `pin.modules.log.operation.subject_name_columns.{table}` 读取配置
      *
-     * 未配置时跳过操作日志记录。
+     * 未配置时跳过操作日志记录
      *
      * @return array|string|null 字段名列表
      */

@@ -40,7 +40,7 @@ trait ActivityEvent
     }
 
     /**
-     * 解析 event|title 或 event|title|subject_type。
+     * 解析 event|title 或 event|title|subject_type
      *
      * @return array{string, string, string|null}
      */

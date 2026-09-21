@@ -11,7 +11,7 @@ use Pin\Modules\Log\Models\OperationLog;
 use Pin\Modules\Log\Payloads\Payload;
 
 /**
- * 日志类型及其模型、路由配置。
+ * 日志类型及其模型、路由配置
  */
 enum LogEvent: string
 {

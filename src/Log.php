@@ -16,7 +16,7 @@ use Pin\Modules\Log\Payloads\OperationPayload;
 use Pin\Modules\Log\Payloads\Payload;
 
 /**
- * 根据载荷类型写入对应的业务日志。
+ * 根据载荷类型写入对应的业务日志
  */
 class Log
 {

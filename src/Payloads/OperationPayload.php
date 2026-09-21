@@ -19,7 +19,7 @@ class OperationPayload extends ActivityPayload
     }
 
     /**
-     * 记录 newValues 中的字段，排除忽略项和未发生变化的值。
+     * 记录 newValues 中的字段，排除忽略项和未发生变化的值
      *
      * @param  array|null  $oldValues  变更前数据
      * @param  array  $newValues  变更后数据

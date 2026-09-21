@@ -18,7 +18,7 @@ use Pin\Modules\Log\Payloads\Payload;
 class Log extends Facade
 {
     /**
-     * 日志服务的容器绑定名称。
+     * 日志服务的容器绑定名称
      */
     protected static function getFacadeAccessor(): string
     {
